@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c//**)",
+      "PowerShell(Copy-Item -Path \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\_modal\" -Destination \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\modal\" -Recurse -Force)",
+      "PowerShell(Copy-Item -Path \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\modal\" -Destination \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-edit-modal\\)\" -Recurse -Force)",
+      "PowerShell(Copy-Item -Path \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-edit-modal\\)\" -Destination \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\\\(seller-edit-modal\\)\" -Recurse -Force)"
+    ]
+  }
+}

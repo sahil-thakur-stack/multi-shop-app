@@ -133,7 +133,7 @@ export default function AddProductScreen() {
 
       showToast('Product added successfully!', 'success');
       // Navigate back after a short delay
-      setTimeout(() => router.replace('/products'), 1500);
+      setTimeout(() => router.replace('/(seller-tabs)/products'), 1500);
     } catch (error: any) {
       showToast(error?.response?.data?.message || 'Failed to add product', 'error');
     } finally {
@@ -145,7 +145,7 @@ export default function AddProductScreen() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <Pressable onPress={() => router.replace('/products')}>
+        <Pressable onPress={() => router.replace('/(seller-tabs)/products')}>
           <Icon name="arrow-left" size={24} />
         </Pressable>
         <Text style={styles.headerTitle}>Add New Product</Text>
@@ -208,7 +208,7 @@ export default function AddProductScreen() {
 
         <Pressable
           style={styles.cancelButton}
-          onPress={() => router.back()}
+          onPress={() => router.replace('/(seller-tabs)/products')}
           disabled={isLoading}
         >
           <Text style={styles.cancelButtonText}>Cancel</Text>

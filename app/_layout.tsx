@@ -59,13 +59,6 @@ function RootLayoutNav() {
           animationEnabled: true,
         }}
       />
-      <Stack.Screen
-        name="(seller-edit-modal)"
-        options={{
-          headerShown: false,
-          animationEnabled: true,
-        }}
-      />
     </Stack>
   );
 }

@@ -149,6 +149,10 @@ export default function SellerTabsLayout() {
         name="orders/[id]/detail"
         options={{ href: null }}
       />
+      <Tabs.Screen
+        name="(seller-edit-modal)"
+        options={{ href: null }}
+      />
 
     </Tabs>
   );

@@ -47,7 +47,7 @@ export default function AddWorkerScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} removeClippedSubviews={true}>
       <View style={styles.header}>
         <Pressable onPress={() => router.replace('/(seller-tabs)/workers')}>
           <Icon name="chevron-left" size={24} color={C.foreground} />

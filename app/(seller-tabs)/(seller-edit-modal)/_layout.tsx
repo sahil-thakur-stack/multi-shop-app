@@ -6,6 +6,7 @@ export default function SellerEditModalLayout() {
       screenOptions={{
         headerShown: false,
         animationEnabled: true,
+        presentation: 'modal',
       }}
     />
   );

@@ -7,7 +7,6 @@ const C = {
   primary: '#E74C3C',
   background: '#E74C3C',
   foreground: '#FFFFFF',
-  darkText: '#333333',
 };
 
 export default function UnauthorizedScreen() {
@@ -22,11 +21,11 @@ export default function UnauthorizedScreen() {
       </View>
 
       <Text style={styles.message}>
-        Login karte ho bhai!
+        This page requires authentication
       </Text>
 
       <Text style={styles.description}>
-        Ye page sirf authenticated users ke liye hai. Pehle login karo!
+        Please login to access this page
       </Text>
 
       <View style={styles.buttonContainer}>
@@ -35,15 +34,7 @@ export default function UnauthorizedScreen() {
           onPress={() => router.replace('/auth/login')}
         >
           <Feather name="log-in" size={20} color={C.background} />
-          <Text style={styles.primaryButtonText}>Login Karoo</Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.secondaryButton}
-          onPress={() => router.replace('/')}
-        >
-          <Feather name="home" size={20} color={C.foreground} />
-          <Text style={styles.secondaryButtonText}>Home Chalo</Text>
+          <Text style={styles.primaryButtonText}>Login</Text>
         </Pressable>
       </View>
     </View>
@@ -94,7 +85,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
-    gap: 12,
   },
   primaryButton: {
     backgroundColor: C.foreground,
@@ -108,22 +98,6 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: C.background,
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  secondaryButton: {
-    borderWidth: 1,
-    borderColor: C.foreground,
-    borderRadius: 10,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
-  secondaryButtonText: {
-    color: C.foreground,
     fontSize: 16,
     fontWeight: '700',
   },

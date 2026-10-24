@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 const C = {
   background: '#FFA500',
   foreground: '#FFFFFF',
+  accent: '#FF1493',
 };
 
 export default function UnauthorizedScreen() {
@@ -17,7 +18,7 @@ export default function UnauthorizedScreen() {
         <Text style={styles.subtitle}>Authorization required.</Text>
 
         <View style={styles.iconContainer}>
-          <Text style={styles.stickFigure}>🥊</Text>
+          <Text style={[styles.stickFigure, { color: C.accent }]}>🏃</Text>
         </View>
       </View>
     </>

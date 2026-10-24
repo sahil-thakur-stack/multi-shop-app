@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Stack } from 'expo-router';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Stack, router } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 const C = {
   primary: '#C86B2C',
@@ -21,6 +22,14 @@ export default function UnauthorizedScreen() {
         <View style={styles.iconContainer}>
           <Text style={styles.stickFigure}>🏃</Text>
         </View>
+
+        <Pressable
+          style={styles.loginButton}
+          onPress={() => router.replace('/auth/login')}
+        >
+          <Feather name="log-in" size={20} color={C.background} />
+          <Text style={styles.loginButtonText}>Login</Text>
+        </Pressable>
       </View>
     </>
   );
@@ -55,5 +64,22 @@ const styles = StyleSheet.create({
   },
   stickFigure: {
     fontSize: 100,
+  },
+  loginButton: {
+    backgroundColor: C.foreground,
+    borderRadius: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+    marginTop: 30,
+    minWidth: 200,
+  },
+  loginButtonText: {
+    color: C.background,
+    fontSize: 16,
+    fontWeight: '700',
   },
 });

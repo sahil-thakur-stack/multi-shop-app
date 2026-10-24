@@ -3,6 +3,8 @@ import { Platform, StyleSheet, useColorScheme, View, ActivityIndicator } from 'r
 import { useColors } from '@/hooks/useColors';
 import { Feather } from '@expo/vector-icons';
 import { Tabs, useRouter } from 'expo-router';
+import { useSession } from '@/context/SessionContext';
+import UnauthorizedScreen from '@/app/unauthorized';
 import { sellerService } from '@/services/sellerService';
 
 const C_COLORS = {
@@ -18,8 +20,22 @@ const C_COLORS = {
 export default function SellerTabsLayout() {
   const colorScheme = useColorScheme();
   const router = useRouter();
+  const { isAuthenticated, user, isLoading: sessionLoading } = useSession();
   const [approvalStatus, setApprovalStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Check authentication first
+  if (sessionLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: C_COLORS.background }}>
+        <ActivityIndicator size="large" color={C_COLORS.primary} />
+      </View>
+    );
+  }
+
+  if (!isAuthenticated || user?.role !== 'Seller') {
+    return <UnauthorizedScreen />;
+  }
 
   useEffect(() => {
     checkApprovalStatus();

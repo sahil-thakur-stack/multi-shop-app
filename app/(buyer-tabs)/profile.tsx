@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Pressable, Alert } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useSession } from '@/context/SessionContext';
 import { router } from 'expo-router';
@@ -36,25 +36,13 @@ function SettingItem({ label, value, icon, onPress, danger = false }: any) {
 export default function ProfileScreen() {
   const { user, logout } = useSession();
 
-  const handleLogout = () => {
-    Alert.alert('Logout', 'Are you sure?', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Logout',
-        style: 'destructive',
-        onPress: async () => {
-          try {
-            await logout();
-            // Give context time to update
-            await new Promise(resolve => setTimeout(resolve, 500));
-            router.replace('/auth/login');
-          } catch (error) {
-            console.error('Logout failed:', error);
-            Alert.alert('Error', 'Logout failed. Please try again.');
-          }
-        },
-      },
-    ]);
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.replace('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return (

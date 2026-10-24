@@ -4,7 +4,20 @@
       "Read(//c//**)",
       "PowerShell(Copy-Item -Path \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\_modal\" -Destination \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\modal\" -Recurse -Force)",
       "PowerShell(Copy-Item -Path \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\modal\" -Destination \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-edit-modal\\)\" -Recurse -Force)",
-      "PowerShell(Copy-Item -Path \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-edit-modal\\)\" -Destination \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\\\(seller-edit-modal\\)\" -Recurse -Force)"
+      "PowerShell(Copy-Item -Path \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-edit-modal\\)\" -Destination \"C:\\\\Users\\\\DELL\\\\Downloads\\\\Multi-Shop-Delivery-App\\\\MultiShopApp\\\\app\\\\\\(seller-tabs\\)\\\\\\(seller-edit-modal\\)\" -Recurse -Force)",
+      "Read(//c/Users/DELL/source/repos/LocalMarketplaceAdminPortal/admin-portal/src/pages/**)",
+      "Read(//c/Users/DELL/source/repos/LocalMarketplaceAdminPortal/admin-portal/src/services/**)",
+      "Read(//c/Users/DELL/source/repos/LocalMarketplaceAdminPortal/admin-portal/src/pages/AdminLayout/**)",
+      "Read(//c/Users/DELL/source/repos/LocalMarketplaceAdminPortal/admin-portal/src/**)",
+      "Read(//c/Users/DELL/source/repos/LocalMarketplace/**)",
+      "Read(//c/Users/DELL/source/repos/LocalMarketplace/Marketplace/Controllers/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\DELL\\source\\repos\\LocalMarketplaceAdminPortal\\admin-portal\\src\\services",
+      "C:\\Users\\DELL\\source\\repos\\LocalMarketplaceAdminPortal\\admin-portal\\src",
+      "C:\\Users\\DELL\\source\\repos\\LocalMarketplace\\Marketplace\\Controllers",
+      "C:\\Users\\DELL\\source\\repos\\LocalMarketplace\\Marketplace.Common\\Services\\AuthServices",
+      "C:\\Users\\DELL\\source\\repos\\LocalMarketplaceAdminPortal\\admin-portal\\src\\pages\\AdminLayout"
     ]
   }
 }

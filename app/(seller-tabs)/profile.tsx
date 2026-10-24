@@ -52,13 +52,10 @@ export default function ProfileScreen() {
 
   const handleLogout = async () => {
     try {
-      showToast('Logging out...', 'info');
       await logout();
-      await new Promise(resolve => setTimeout(resolve, 500));
-      router.replace('/auth/login');
+      router.replace('/');
     } catch (error) {
       console.error('Logout failed:', error);
-      showToast('Logout failed. Please try again.', 'error');
     }
   };
 

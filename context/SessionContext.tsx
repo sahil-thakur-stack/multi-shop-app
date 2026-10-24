@@ -253,6 +253,19 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
+    setUser(null);
+    setAuthToken(null);
+    setRefreshToken(null);
+    setRegistrationToken(null);
+    setIsLoading(false);
+
+    await Promise.all([
+      AsyncStorage.removeItem(STORAGE_KEY_TOKEN),
+      AsyncStorage.removeItem(STORAGE_KEY_REFRESH_TOKEN),
+      AsyncStorage.removeItem(STORAGE_KEY_USER),
+      AsyncStorage.removeItem(STORAGE_KEY_REG_TOKEN),
+    ]);
+
     try {
       await fetch(`${BACKEND_URL}/api/auth/logout`, {
         method: 'POST',
@@ -261,17 +274,6 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       });
     } catch (error) {
       console.error('Logout error:', error);
-    } finally {
-      setUser(null);
-      setAuthToken(null);
-      setRefreshToken(null);
-      setRegistrationToken(null);
-      await Promise.all([
-        AsyncStorage.removeItem(STORAGE_KEY_TOKEN),
-        AsyncStorage.removeItem(STORAGE_KEY_REFRESH_TOKEN),
-        AsyncStorage.removeItem(STORAGE_KEY_USER),
-        AsyncStorage.removeItem(STORAGE_KEY_REG_TOKEN),
-      ]);
     }
   }, []);
 

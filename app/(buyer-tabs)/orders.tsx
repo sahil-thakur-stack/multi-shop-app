@@ -74,16 +74,16 @@ export default function OrdersScreen() {
       ) : (
         <FlatList
           data={orders}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.orderId.toString()}
           renderItem={({ item }) => (
             <Pressable
               style={styles.orderCard}
-              onPress={() => router.push(`/(buyer-tabs)/orders/${item.id}/track`)}
+              onPress={() => router.push(`/(buyer-tabs)/orders/${item.orderId}/track`)}
             >
               <View style={styles.orderLeft}>
-                <Text style={styles.orderNum}>#{item.id}</Text>
+                <Text style={styles.orderNum}>#{item.orderId}</Text>
                 <Text style={styles.shopName}>{item.storeName}</Text>
-                <Text style={styles.orderMeta}>{item.itemCount || 0} items • ₹{item.totalAmount || item.total || 0}</Text>
+                <Text style={styles.orderMeta}>{item.items?.length || 0} items • ₹{item.totalAmount}</Text>
               </View>
               <View style={styles.orderRight}>
                 <View

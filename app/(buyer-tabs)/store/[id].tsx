@@ -39,7 +39,7 @@ function ProductCard({ product, shopId, shopName, deliveryFee, onAdd }: any) {
             style={styles.addButton}
             onPress={() => {
               setQty(1);
-              onAdd({ productId: product.id, productName: product.name, shopId, shopName, price: product.price, quantity: 1, deliveryFee });
+              onAdd({ productId: product.productId, productName: product.name, shopId, shopName, price: product.price, quantity: 1, deliveryFee });
             }}
           >
             <Icon name="plus" size={16} color={C.foreground} />
@@ -53,7 +53,7 @@ function ProductCard({ product, shopId, shopName, deliveryFee, onAdd }: any) {
             <Pressable
               onPress={() => {
                 setQty(qty + 1);
-                onAdd({ productId: product.id, productName: product.name, shopId, shopName, price: product.price, quantity: 1, deliveryFee });
+                onAdd({ productId: product.productId, productName: product.name, shopId, shopName, price: product.price, quantity: 1, deliveryFee });
               }}
             >
               <Icon name="plus" size={14} color={C.primary} />
@@ -147,7 +147,7 @@ export default function StoreDetailScreen() {
         ) : (
           <FlatList
             data={filteredProducts}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.productId.toString()}
             renderItem={({ item }) => (
               <ProductCard
                 product={item}

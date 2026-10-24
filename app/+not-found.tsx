@@ -3,8 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Stack } from 'expo-router';
 
 const C = {
-  background: '#FFA500',
+  primary: '#C86B2C',
+  background: '#22312B',
   foreground: '#FFFFFF',
+  destructive: '#C84B43',
 };
 
 export default function NotFoundScreen() {

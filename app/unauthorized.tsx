@@ -3,9 +3,10 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
 
 const C = {
-  background: '#FFA500',
+  primary: '#C86B2C',
+  background: '#22312B',
   foreground: '#FFFFFF',
-  accent: '#FF1493',
+  destructive: '#C84B43',
 };
 
 export default function UnauthorizedScreen() {
@@ -18,7 +19,7 @@ export default function UnauthorizedScreen() {
         <Text style={styles.subtitle}>Authorization required.</Text>
 
         <View style={styles.iconContainer}>
-          <Text style={[styles.stickFigure, { color: C.accent }]}>🏃</Text>
+          <Text style={styles.stickFigure}>🏃</Text>
         </View>
       </View>
     </>

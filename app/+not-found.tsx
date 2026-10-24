@@ -29,7 +29,7 @@ export default function NotFoundScreen() {
         <Text style={styles.title}>Oops... page not found</Text>
 
         <View style={styles.iconContainer}>
-          <Feather name="search" size={100} color={C.foreground} strokeWidth={0.5} />
+          <Text style={styles.stickFigure}>🧑‍💻</Text>
         </View>
 
         <Text style={styles.message}>
@@ -138,5 +138,8 @@ const styles = StyleSheet.create({
     color: C.foreground,
     fontSize: 16,
     fontWeight: '700',
+  },
+  stickFigure: {
+    fontSize: 120,
   },
 });

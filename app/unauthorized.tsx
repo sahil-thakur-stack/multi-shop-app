@@ -18,7 +18,7 @@ export default function UnauthorizedScreen() {
       <Text style={styles.title}>Unauthorized Access</Text>
 
       <View style={styles.iconContainer}>
-        <Feather name="lock" size={100} color={C.foreground} strokeWidth={0.5} />
+        <Text style={styles.stickFigure}>🏃‍♂️</Text>
       </View>
 
       <Text style={styles.message}>
@@ -126,5 +126,8 @@ const styles = StyleSheet.create({
     color: C.foreground,
     fontSize: 16,
     fontWeight: '700',
+  },
+  stickFigure: {
+    fontSize: 120,
   },
 });

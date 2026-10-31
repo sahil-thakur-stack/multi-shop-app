@@ -84,19 +84,27 @@ export default function BuyerHomeScreen() {
       setLoading(true);
 
       // Get user location
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status === 'granted') {
-        const location = await Location.getCurrentPositionAsync({});
-        const coords = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        };
-        setUserLocation(coords);
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status === 'granted') {
+          const location = await Location.getCurrentPositionAsync({});
+          const coords = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          };
+          setUserLocation(coords);
 
-        const [place] = await Location.reverseGeocodeAsync(coords);
-        if (place) {
-          setAddress([place.city || place.subregion, place.region].filter(Boolean).join(', '));
+          const [place] = await Location.reverseGeocodeAsync(coords);
+          if (place) {
+            setAddress([place.city || place.subregion, place.region].filter(Boolean).join(', '));
+          }
         }
+      } catch (error) {
+        // Geolocation failed (common on web), use default location for testing
+        const defaultLocation = { latitude: 28.7041, longitude: 77.1025 };
+        setUserLocation(defaultLocation);
+        setAddress('Testing Location');
+        console.log('Using default location for testing:', defaultLocation);
       }
 
       // Load stores

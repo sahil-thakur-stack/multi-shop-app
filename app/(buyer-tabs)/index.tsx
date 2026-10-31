@@ -106,7 +106,6 @@ export default function BuyerHomeScreen() {
           setAddress('');
         }
       } catch (error) {
-        console.log('Geolocation unavailable - showing all stores');
         setAddress('');
       }
 
@@ -131,22 +130,13 @@ export default function BuyerHomeScreen() {
   useEffect(() => {
     let filtered = stores;
 
-    // Apply radius filtering only if we have real location
-    if (hasRealLocation && userLocation) {
-      filtered = filterStoresWithinRadius(
-        filtered,
-        userLocation.latitude,
-        userLocation.longitude
-      );
-    }
-
-    // Apply search filter
+    // Apply search filter only (skip radius - show all stores)
     filtered = filtered.filter(s =>
       (s.storeName || s.businessName || '').toLowerCase().includes(search.toLowerCase())
     );
 
     setFilteredStores(filtered);
-  }, [stores, search, userLocation, hasRealLocation]);
+  }, [stores, search]);
 
 
   return (

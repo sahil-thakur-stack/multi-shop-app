@@ -123,8 +123,9 @@ export default function EditProductScreen() {
 
   return (
     <ScrollView style={styles.container}>
+     
       <View style={styles.header}>
-        <Pressable onPress={() => router.back()}>
+        <Pressable onPress={() => router.replace('/products')}>
           <Icon name="chevron-left" size={24} color={C.foreground} />
         </Pressable>
         <Text style={styles.title}>Edit Product</Text>

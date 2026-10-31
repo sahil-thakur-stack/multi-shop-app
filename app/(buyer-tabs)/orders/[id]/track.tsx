@@ -62,7 +62,7 @@ export default function OrderTrackingScreen() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
-      <Pressable onPress={() => router.back()} style={styles.backButton}>
+      <Pressable onPress={() => router.replace('/orders')} style={styles.backButton}>
         <Icon name="chevron-left" size={24} color={C.foreground} />
         <Text style={styles.backText}>Back</Text>
       </Pressable>

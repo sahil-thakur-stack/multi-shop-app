@@ -79,11 +79,11 @@ export default function OrdersScreen() {
       ) : (
         <FlatList
           data={orders}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.orderId.toString()}
           renderItem={({ item }) => (
             <Pressable style={styles.orderCard}>
               <View style={styles.orderHeader}>
-                <Text style={styles.orderNum}>#{item.id}</Text>
+                <Text style={styles.orderNum}>#{item.orderId}</Text>
                 <View style={[styles.statusBadge, { backgroundColor: `${getStatusColor(item.status)}30` }]}>
                   <Text style={[styles.statusText, { color: getStatusColor(item.status) }]}>
                     {getStatusLabel(item.status)}

@@ -73,6 +73,7 @@ export default function BuyerHomeScreen() {
   const [loading, setLoading] = useState(true);
   const [userLocation, setUserLocation] = useState<any>(null);
   const [address, setAddress] = useState('');
+  const [hasRealLocation, setHasRealLocation] = useState(false);
   const { user } = useSession();
 
   useEffect(() => {
@@ -83,29 +84,35 @@ export default function BuyerHomeScreen() {
     try {
       setLoading(true);
 
+      let coords = { latitude: 28.7041, longitude: 77.1025 };
+      let hasReal = false;
+
       // Get user location
       try {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status === 'granted') {
           const location = await Location.getCurrentPositionAsync({});
-          const coords = {
+          coords = {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
           };
-          setUserLocation(coords);
+          hasReal = true;
 
           const [place] = await Location.reverseGeocodeAsync(coords);
           if (place) {
             setAddress([place.city || place.subregion, place.region].filter(Boolean).join(', '));
           }
+        } else {
+          setAddress('');
         }
       } catch (error) {
-        // Geolocation failed (common on web), use default location for testing
-        const defaultLocation = { latitude: 28.7041, longitude: 77.1025 };
-        setUserLocation(defaultLocation);
-        setAddress('Testing Location');
-        console.log('Using default location for testing:', defaultLocation);
+        console.log('Geolocation unavailable - showing all stores');
+        setAddress('');
       }
+
+      // Set location state once we have it
+      setUserLocation(coords);
+      setHasRealLocation(hasReal);
 
       // Load stores
       const res = await buyerService.getStores();
@@ -124,8 +131,8 @@ export default function BuyerHomeScreen() {
   useEffect(() => {
     let filtered = stores;
 
-    // Apply each store's own delivery radius
-    if (userLocation) {
+    // Apply radius filtering only if we have real location
+    if (hasRealLocation && userLocation) {
       filtered = filterStoresWithinRadius(
         filtered,
         userLocation.latitude,
@@ -139,7 +146,7 @@ export default function BuyerHomeScreen() {
     );
 
     setFilteredStores(filtered);
-  }, [stores, search, userLocation]);
+  }, [stores, search, userLocation, hasRealLocation]);
 
 
   return (
@@ -198,7 +205,7 @@ export default function BuyerHomeScreen() {
           </>
         ) : (
           <View style={styles.empty}>
-            {userLocation ? (
+            {userLocation && hasRealLocation ? (
               <>
                 <Icon name="map" size={40} color={C.mutedForeground} />
                 <Text style={styles.emptyText}>No stores deliver to your location</Text>

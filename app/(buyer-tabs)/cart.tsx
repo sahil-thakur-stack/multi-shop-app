@@ -35,63 +35,88 @@ export default function CartScreen() {
 
   return (
     <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.headerTitle}>Your Cart</Text>
+          <Text style={styles.headerSubtitle}>{totalItems} items</Text>
+        </View>
+        <View style={styles.headerBadge}>
+          <Text style={styles.headerBadgeText}>{totalItems}</Text>
+        </View>
+      </View>
+
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Shopping Cart</Text>
+        {/* Cart Items */}
+        <View style={styles.itemsSection}>
+          <FlatList
+            data={items}
+            keyExtractor={(item) => item.productId.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.cartItemCard}>
+                {/* Item Image */}
+                <View style={styles.itemImageContainer}>
+                  <Icon name="package" size={28} color={C.primary} />
+                </View>
 
-        <FlatList
-          data={items}
-          keyExtractor={(item) => item.productId.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.cartItem}>
-              <View style={styles.itemImage}>
-                <Icon name="package" size={24} color={C.primary} />
+                {/* Item Details */}
+                <View style={styles.itemDetailsSection}>
+                  <Text style={styles.itemName} numberOfLines={1}>{item.productName}</Text>
+                  <Text style={styles.itemShop}>{item.shopName}</Text>
+                  <Text style={styles.itemPrice}>₹{item.price} × {item.quantity}</Text>
+                </View>
+
+                {/* Item Total & Controls */}
+                <View style={styles.itemRightSection}>
+                  <Text style={styles.itemTotal}>₹{item.price * item.quantity}</Text>
+
+                  <View style={styles.quantityControlCart}>
+                    <Pressable onPress={() => updateQuantity(item.productId, item.quantity - 1)}>
+                      <Icon name="minus" size={14} color={C.primary} />
+                    </Pressable>
+                    <Text style={styles.quantityCart}>{item.quantity}</Text>
+                    <Pressable onPress={() => updateQuantity(item.productId, item.quantity + 1)}>
+                      <Icon name="plus" size={14} color={C.primary} />
+                    </Pressable>
+                  </View>
+
+                  <Pressable onPress={() => removeItem(item.productId)} style={styles.removeBtn}>
+                    <Icon name="x" size={16} color="#C84B43" />
+                  </Pressable>
+                </View>
               </View>
+            )}
+            scrollEnabled={false}
+          />
+        </View>
 
-              <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{item.productName}</Text>
-                <Text style={styles.itemShop}>{item.shopName}</Text>
-                <Text style={styles.itemPrice}>₹{item.price}</Text>
-              </View>
+        {/* Summary Card */}
+        <View style={styles.billCard}>
+          <Text style={styles.billTitle}>Bill Details</Text>
 
-              <View style={styles.quantityControl}>
-                <Pressable onPress={() => updateQuantity(item.productId, item.quantity - 1)}>
-                  <Icon name="minus" size={16} color={C.primary} />
-                </Pressable>
-                <Text style={styles.quantity}>{item.quantity}</Text>
-                <Pressable onPress={() => updateQuantity(item.productId, item.quantity + 1)}>
-                  <Icon name="plus" size={16} color={C.primary} />
-                </Pressable>
-              </View>
-
-              <Pressable onPress={() => removeItem(item.productId)}>
-                <Icon name="trash-2" size={18} color="#C84B43" />
-              </Pressable>
-            </View>
-          )}
-          scrollEnabled={false}
-        />
-
-        {/* Summary */}
-        <View style={styles.summaryCard}>
-          <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Subtotal ({totalItems} items)</Text>
-            <Text style={styles.summaryValue}>₹{totalPrice}</Text>
+          <View style={styles.billRow}>
+            <Text style={styles.billLabel}>Subtotal</Text>
+            <Text style={styles.billValue}>₹{totalPrice}</Text>
           </View>
-          <View style={styles.summaryRow}>
-            <Text style={styles.summaryLabel}>Delivery</Text>
-            <Text style={styles.summaryValue}>₹{deliveryFee}</Text>
+          <View style={styles.billRow}>
+            <Text style={styles.billLabel}>Delivery</Text>
+            <Text style={styles.billValue}>₹{deliveryFee}</Text>
           </View>
-          <View style={[styles.summaryRow, styles.summaryTotal]}>
-            <Text style={styles.totalLabel}>Total</Text>
-            <Text style={styles.totalValue}>₹{totalPrice + deliveryFee}</Text>
+
+          <View style={styles.billDivider} />
+
+          <View style={styles.billRowTotal}>
+            <Text style={styles.billTotalLabel}>Total Amount</Text>
+            <Text style={styles.billTotalValue}>₹{totalPrice + deliveryFee}</Text>
           </View>
         </View>
       </ScrollView>
 
-      <View style={styles.checkoutContainer}>
-        <Pressable style={styles.checkoutButton} onPress={() => router.push('/(buyer-tabs)/checkout')}>
-          <Icon name="shopping-bag" size={18} color={C.foreground} />
-          <Text style={styles.checkoutText}>Proceed to Checkout</Text>
+      {/* Checkout Button */}
+      <View style={styles.checkoutFooter}>
+        <Pressable style={styles.checkoutButtonCart} onPress={() => router.push('/(buyer-tabs)/checkout')}>
+          <Icon name="arrow-right" size={18} color={C.foreground} />
+          <Text style={styles.checkoutButtonTextCart}>Checkout</Text>
         </Pressable>
       </View>
     </View>
@@ -100,29 +125,51 @@ export default function CartScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: C.background },
+
+  // Header
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 16, backgroundColor: C.card, borderBottomWidth: 1, borderBottomColor: C.border },
+  headerTitle: { color: C.foreground, fontSize: 18, fontWeight: '700' },
+  headerSubtitle: { color: C.mutedForeground, fontSize: 12, marginTop: 2 },
+  headerBadge: { backgroundColor: C.primary, borderRadius: 20, width: 32, height: 32, justifyContent: 'center', alignItems: 'center' },
+  headerBadgeText: { color: C.foreground, fontSize: 12, fontWeight: '700' },
+
+  // Scroll
   scroll: { flex: 1, paddingHorizontal: 16, paddingTop: 16 },
-  title: { color: C.foreground, fontSize: 18, fontWeight: '700', marginBottom: 16 },
+
+  // Empty State
   emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: C.background, paddingHorizontal: 16 },
   emptyText: { color: C.foreground, fontSize: 18, fontWeight: '700', marginTop: 16 },
   emptySubtext: { color: C.mutedForeground, fontSize: 13, marginTop: 8 },
   exploreButton: { backgroundColor: C.primary, borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12, marginTop: 20 },
   exploreButtonText: { color: C.foreground, fontWeight: '700' },
-  cartItem: { backgroundColor: C.card, borderRadius: 12, padding: 12, marginBottom: 10, flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderColor: C.border },
-  itemImage: { width: 40, height: 40, borderRadius: 10, backgroundColor: 'rgba(200, 107, 44, 0.1)', justifyContent: 'center', alignItems: 'center' },
-  itemInfo: { flex: 1 },
-  itemName: { color: C.foreground, fontSize: 13, fontWeight: '600' },
+
+  // Items Section
+  itemsSection: { marginBottom: 20 },
+  cartItemCard: { backgroundColor: C.card, borderRadius: 12, padding: 12, marginBottom: 10, flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderColor: C.border },
+  itemImageContainer: { width: 50, height: 50, borderRadius: 12, backgroundColor: 'rgba(200, 107, 44, 0.15)', justifyContent: 'center', alignItems: 'center' },
+  itemDetailsSection: { flex: 1 },
+  itemName: { color: C.foreground, fontSize: 13, fontWeight: '700' },
   itemShop: { color: C.mutedForeground, fontSize: 11, marginTop: 2 },
-  itemPrice: { color: C.primary, fontSize: 12, fontWeight: '700', marginTop: 4 },
-  quantityControl: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(200, 107, 44, 0.1)', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 4 },
-  quantity: { color: C.foreground, fontSize: 13, fontWeight: '600', minWidth: 18, textAlign: 'center' },
-  summaryCard: { backgroundColor: C.card, borderRadius: 12, padding: 16, marginVertical: 20, borderWidth: 1, borderColor: C.border },
-  summaryRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 },
-  summaryLabel: { color: C.mutedForeground, fontSize: 13 },
-  summaryValue: { color: C.foreground, fontSize: 13, fontWeight: '600' },
-  summaryTotal: { borderTopWidth: 1, borderTopColor: C.border, paddingTop: 12, marginBottom: 0 },
-  totalLabel: { color: C.foreground, fontSize: 14, fontWeight: '700' },
-  totalValue: { color: C.primary, fontSize: 16, fontWeight: '700' },
-  checkoutContainer: { paddingHorizontal: 16, paddingVertical: 16, backgroundColor: C.card, borderTopWidth: 1, borderTopColor: C.border },
-  checkoutButton: { backgroundColor: C.primary, borderRadius: 12, paddingVertical: 14, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8 },
-  checkoutText: { color: C.foreground, fontSize: 16, fontWeight: '700' },
+  itemPrice: { color: C.mutedForeground, fontSize: 11, marginTop: 4 },
+  itemRightSection: { alignItems: 'flex-end', gap: 6 },
+  itemTotal: { color: C.primary, fontSize: 13, fontWeight: '700' },
+  quantityControlCart: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(200, 107, 44, 0.1)', borderRadius: 8, paddingHorizontal: 4, paddingVertical: 3 },
+  quantityCart: { color: C.foreground, fontSize: 11, fontWeight: '600', minWidth: 16, textAlign: 'center' },
+  removeBtn: { padding: 4 },
+
+  // Bill Card
+  billCard: { backgroundColor: C.card, borderRadius: 12, padding: 16, marginBottom: 100, borderWidth: 1, borderColor: C.border },
+  billTitle: { color: C.foreground, fontSize: 14, fontWeight: '700', marginBottom: 12 },
+  billRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
+  billLabel: { color: C.mutedForeground, fontSize: 13 },
+  billValue: { color: C.foreground, fontSize: 13, fontWeight: '600' },
+  billDivider: { height: 1, backgroundColor: C.border, marginVertical: 12 },
+  billRowTotal: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  billTotalLabel: { color: C.foreground, fontSize: 14, fontWeight: '700' },
+  billTotalValue: { color: C.primary, fontSize: 16, fontWeight: '700' },
+
+  // Checkout Footer
+  checkoutFooter: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 16, paddingVertical: 12, backgroundColor: C.card, borderTopWidth: 1, borderTopColor: C.border },
+  checkoutButtonCart: { backgroundColor: C.primary, borderRadius: 12, paddingVertical: 14, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8 },
+  checkoutButtonTextCart: { color: C.foreground, fontSize: 16, fontWeight: '700' },
 });

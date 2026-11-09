@@ -221,11 +221,11 @@ const styles = StyleSheet.create({
 
   // Grid Layout
   gridContainer: { paddingHorizontal: 8 },
-  columnWrapper: { justifyContent: 'space-between', paddingHorizontal: 8, marginBottom: 8 },
+  columnWrapper: { justifyContent: 'flex-start', paddingHorizontal: 8, marginBottom: 8, gap: 8 },
   gridContent: { paddingBottom: 16 },
 
   // Store Grid Card
-  storeGridCard: { flex: 1, backgroundColor: C.card, borderRadius: 12, padding: 12, marginHorizontal: 4, borderWidth: 1, borderColor: C.border, alignItems: 'center' },
+  storeGridCard: { width: '48%', backgroundColor: C.card, borderRadius: 12, padding: 12, borderWidth: 1, borderColor: C.border, alignItems: 'center' },
   storeGridImage: { width: 70, height: 70, borderRadius: 12, backgroundColor: 'rgba(200, 107, 44, 0.15)', justifyContent: 'center', alignItems: 'center', marginBottom: 10 },
   storeGridInfo: { width: '100%', alignItems: 'center' },
   storeGridName: { color: C.foreground, fontSize: 13, fontWeight: '700', textAlign: 'center', marginBottom: 6 },

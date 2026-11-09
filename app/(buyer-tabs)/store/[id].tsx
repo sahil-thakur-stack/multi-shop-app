@@ -22,41 +22,45 @@ function ProductCard({ product, shopId, shopName, deliveryFee, onAdd }: any) {
   const [qty, setQty] = useState(0);
 
   return (
-    <View style={styles.productCard}>
-      <View style={styles.productImage}>
-        <Icon name="package" size={28} color={C.primary} />
+    <View style={styles.productGridCard}>
+      {/* Product Image */}
+      <View style={styles.productGridImage}>
+        <Icon name="package" size={32} color={C.primary} />
       </View>
 
-      <View style={styles.productInfo}>
-        <Text style={styles.productName}>{product.name}</Text>
-        <Text style={styles.productCategory}>{product.category}</Text>
-        <Text style={styles.productPrice}>₹{product.price}</Text>
+      {/* Product Info */}
+      <View style={styles.productGridInfo}>
+        <Text style={styles.productGridName} numberOfLines={2}>{product.name}</Text>
+        <Text style={styles.productGridCategory} numberOfLines={1}>{product.category}</Text>
+        <Text style={styles.productGridPrice}>₹{product.price}</Text>
       </View>
 
-      <View style={styles.productControl}>
+      {/* Add/Qty Control Button */}
+      <View style={styles.productGridButton}>
         {qty === 0 ? (
           <Pressable
-            style={styles.addButton}
+            style={styles.addButtonGrid}
             onPress={() => {
               setQty(1);
               onAdd({ productId: product.productId, productName: product.name, shopId, shopName, price: product.price, quantity: 1, deliveryFee });
             }}
           >
-            <Icon name="plus" size={16} color={C.foreground} />
+            <Text style={styles.addButtonText}>ADD</Text>
           </Pressable>
         ) : (
-          <View style={styles.qtyControl}>
-            <Pressable onPress={() => setQty(qty - 1)}>
-              <Icon name="minus" size={14} color={C.primary} />
+          <View style={styles.qtyControlGrid}>
+            <Pressable style={styles.qtyBtn} onPress={() => setQty(qty - 1)}>
+              <Icon name="minus" size={12} color={C.primary} />
             </Pressable>
-            <Text style={styles.qtyText}>{qty}</Text>
+            <Text style={styles.qtyTextGrid}>{qty}</Text>
             <Pressable
+              style={styles.qtyBtn}
               onPress={() => {
                 setQty(qty + 1);
                 onAdd({ productId: product.productId, productName: product.name, shopId, shopName, price: product.price, quantity: 1, deliveryFee });
               }}
             >
-              <Icon name="plus" size={14} color={C.primary} />
+              <Icon name="plus" size={12} color={C.primary} />
             </Pressable>
           </View>
         )}
@@ -139,7 +143,7 @@ export default function StoreDetailScreen() {
           />
         </View>
 
-        {/* Products */}
+        {/* Products Grid */}
         {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={C.primary} />
@@ -158,7 +162,9 @@ export default function StoreDetailScreen() {
               />
             )}
             scrollEnabled={false}
-            contentContainerStyle={styles.productsList}
+            numColumns={2}
+            columnWrapperStyle={styles.columnWrapper}
+            contentContainerStyle={styles.productsGrid}
             ListEmptyComponent={
               <View style={styles.empty}>
                 <Icon name="inbox" size={40} color={C.mutedForeground} />
@@ -175,7 +181,7 @@ export default function StoreDetailScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: C.background },
   loadingContainer: { paddingVertical: 40, justifyContent: 'center', alignItems: 'center' },
-  empty: { justifyContent: 'center', alignItems: 'center', paddingVertical: 40 },
+  empty: { justifyContent: 'center', alignItems: 'center', paddingVertical: 40, width: '100%' },
   emptyText: { color: C.mutedForeground, fontSize: 14, marginTop: 12 },
   header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12, backgroundColor: C.card, borderBottomWidth: 1, borderBottomColor: C.border, gap: 12 },
   storeInfo: { flex: 1 },
@@ -185,18 +191,25 @@ const styles = StyleSheet.create({
   cartIcon: { position: 'relative', padding: 8 },
   badge: { position: 'absolute', top: 0, right: 0, backgroundColor: '#C84B43', borderRadius: 10, width: 18, height: 18, justifyContent: 'center', alignItems: 'center' },
   badgeText: { color: C.foreground, fontSize: 9, fontWeight: '700' },
-  scroll: { flex: 1, paddingHorizontal: 16, paddingTop: 12 },
-  searchContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: C.card, borderRadius: 10, paddingHorizontal: 10, marginBottom: 14, borderWidth: 1, borderColor: C.border },
+  scroll: { flex: 1, paddingHorizontal: 8, paddingTop: 12 },
+  searchContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: C.card, borderRadius: 10, paddingHorizontal: 10, marginBottom: 14, marginHorizontal: 8, borderWidth: 1, borderColor: C.border },
   searchInput: { flex: 1, color: C.foreground, paddingVertical: 8, paddingHorizontal: 8, fontSize: 13 },
-  productsList: { paddingBottom: 16 },
-  productCard: { backgroundColor: C.card, borderRadius: 10, padding: 12, marginBottom: 10, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: C.border, gap: 10 },
-  productImage: { width: 50, height: 50, borderRadius: 10, backgroundColor: 'rgba(200, 107, 44, 0.1)', justifyContent: 'center', alignItems: 'center' },
-  productInfo: { flex: 1 },
-  productName: { color: C.foreground, fontSize: 13, fontWeight: '600', marginBottom: 2 },
-  productCategory: { color: C.mutedForeground, fontSize: 11, marginBottom: 4 },
-  productPrice: { color: C.primary, fontSize: 13, fontWeight: '700' },
-  productControl: { marginLeft: 8 },
-  addButton: { backgroundColor: C.primary, borderRadius: 8, width: 32, height: 32, justifyContent: 'center', alignItems: 'center' },
-  qtyControl: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(200, 107, 44, 0.1)', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 4 },
-  qtyText: { color: C.foreground, fontSize: 12, fontWeight: '600', minWidth: 14, textAlign: 'center' },
+
+  // Product Grid
+  columnWrapper: { justifyContent: 'space-between', paddingHorizontal: 4, marginBottom: 8 },
+  productsGrid: { paddingHorizontal: 4, paddingBottom: 16 },
+
+  // Product Grid Card
+  productGridCard: { flex: 1, backgroundColor: C.card, borderRadius: 12, padding: 10, marginHorizontal: 4, borderWidth: 1, borderColor: C.border, alignItems: 'center' },
+  productGridImage: { width: 70, height: 70, borderRadius: 12, backgroundColor: 'rgba(200, 107, 44, 0.15)', justifyContent: 'center', alignItems: 'center', marginBottom: 8 },
+  productGridInfo: { width: '100%', alignItems: 'center', marginBottom: 8 },
+  productGridName: { color: C.foreground, fontSize: 12, fontWeight: '700', textAlign: 'center', marginBottom: 4 },
+  productGridCategory: { color: C.mutedForeground, fontSize: 10, marginBottom: 4 },
+  productGridPrice: { color: C.primary, fontSize: 14, fontWeight: '700', marginBottom: 8 },
+  productGridButton: { width: '100%' },
+  addButtonGrid: { backgroundColor: C.primary, borderRadius: 8, paddingVertical: 8, justifyContent: 'center', alignItems: 'center' },
+  addButtonText: { color: C.foreground, fontSize: 12, fontWeight: '700' },
+  qtyControlGrid: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(200, 107, 44, 0.15)', borderRadius: 8, paddingHorizontal: 4, paddingVertical: 4 },
+  qtyBtn: { width: 24, height: 24, justifyContent: 'center', alignItems: 'center' },
+  qtyTextGrid: { color: C.foreground, fontSize: 12, fontWeight: '600', minWidth: 20, textAlign: 'center' },
 });

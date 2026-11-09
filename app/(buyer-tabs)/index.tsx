@@ -31,36 +31,24 @@ function StoreCard({ store, userLocation }: { store: any; userLocation: any }) {
 
   return (
     <Pressable
-      style={styles.storeCard}
+      style={styles.storeGridCard}
       onPress={() => router.push(`/(buyer-tabs)/store/${store.storeId}`)}
     >
-      <View style={styles.storeImage}>
-        <Icon name="store" size={32} color={C.primary} />
+      <View style={styles.storeGridImage}>
+        <Icon name="store" size={40} color={C.primary} />
       </View>
 
-      <View style={styles.storeInfo}>
-        <View style={styles.storeHeader}>
-          <Text style={styles.storeName}>{store.storeName || store.businessName}</Text>
-        </View>
+      <View style={styles.storeGridInfo}>
+        <Text style={styles.storeGridName} numberOfLines={2}>{store.storeName || store.businessName}</Text>
 
         {distanceKm !== null && (
-          <View style={styles.storeStats}>
-            <View style={styles.stat}>
-              <Icon name="map-pin" size={14} color={C.mutedForeground} />
-              <Text style={styles.statText}>{getDistanceDisplay(distanceKm)}</Text>
-            </View>
-            <Text style={styles.separator}>•</Text>
-            <View style={styles.stat}>
-              <Icon name="clock" size={14} color={C.mutedForeground} />
-              <Text style={styles.statText}>{estimateDeliveryTime(distanceKm)}</Text>
-            </View>
+          <View style={styles.storeGridStats}>
+            <Text style={styles.storeGridDistance}>{getDistanceDisplay(distanceKm)}</Text>
+            <Text style={styles.storeGridDot}>•</Text>
+            <Text style={styles.storeGridDelivery}>{estimateDeliveryTime(distanceKm)}</Text>
           </View>
         )}
-
-        {!!store.address && <Text style={styles.productCount}>{store.address}</Text>}
       </View>
-
-      <Icon name="chevron-right" size={20} color={C.mutedForeground} />
     </Pressable>
   );
 }
@@ -183,16 +171,17 @@ export default function BuyerHomeScreen() {
             <ActivityIndicator size="large" color={C.primary} />
           </View>
         ) : filteredStores.length > 0 ? (
-          <>
-            <Text style={styles.resultsCount}>{filteredStores.length} stores near you</Text>
+          <View style={styles.gridContainer}>
             <FlatList
               data={filteredStores}
               keyExtractor={(item) => item.storeId.toString()}
               renderItem={({ item }) => <StoreCard store={item} userLocation={userLocation} />}
               scrollEnabled={false}
-              contentContainerStyle={styles.storesList}
+              numColumns={2}
+              columnWrapperStyle={styles.columnWrapper}
+              contentContainerStyle={styles.gridContent}
             />
-          </>
+          </View>
         ) : (
           <View style={styles.empty}>
             {userLocation && hasRealLocation ? (
@@ -217,7 +206,6 @@ export default function BuyerHomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: C.background },
   loadingContainer: { paddingVertical: 40, justifyContent: 'center', alignItems: 'center' },
-  resultsCount: { color: C.mutedForeground, fontSize: 12, paddingHorizontal: 16, marginBottom: 10 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingHorizontal: 16, paddingTop: 16, paddingBottom: 8 },
   greeting: { color: C.foreground, fontSize: 18, fontWeight: '700' },
   location: { color: C.mutedForeground, fontSize: 13, marginTop: 4 },
@@ -226,24 +214,26 @@ const styles = StyleSheet.create({
   badgeText: { color: C.foreground, fontSize: 10, fontWeight: '700' },
   searchContainer: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 16, marginVertical: 12, backgroundColor: C.card, borderRadius: 10, paddingHorizontal: 12, borderWidth: 1, borderColor: C.border },
   searchInput: { flex: 1, color: C.foreground, paddingVertical: 10, paddingHorizontal: 8, fontSize: 14 },
-  promoBanner: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 16, marginVertical: 12, backgroundColor: C.card, borderRadius: 12, padding: 16, borderLeftWidth: 4, borderLeftColor: C.primary },
-  promoTitle: { color: C.foreground, fontSize: 14, fontWeight: '700' },
-  promoText: { color: C.mutedForeground, fontSize: 12, marginTop: 4 },
-  section: { marginBottom: 24 },
-  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16, marginBottom: 12 },
+  section: { marginBottom: 24, paddingHorizontal: 16 },
+  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
   sectionTitle: { color: C.foreground, fontSize: 16, fontWeight: '700' },
   seeAll: { color: C.primary, fontSize: 13, fontWeight: '600' },
-  storesList: { paddingHorizontal: 16 },
-  storeCard: { backgroundColor: C.card, borderRadius: 12, padding: 12, marginBottom: 10, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: C.border, gap: 12 },
-  storeImage: { width: 50, height: 50, borderRadius: 10, backgroundColor: 'rgba(200, 107, 44, 0.1)', justifyContent: 'center', alignItems: 'center' },
-  storeInfo: { flex: 1 },
-  storeHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
-  storeName: { color: C.foreground, fontSize: 14, fontWeight: '700' },
-  storeStats: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 },
-  stat: { flexDirection: 'row', alignItems: 'center', gap: 3 },
-  statText: { color: C.mutedForeground, fontSize: 11 },
-  separator: { color: C.mutedForeground },
-  productCount: { color: C.mutedForeground, fontSize: 11 },
+
+  // Grid Layout
+  gridContainer: { paddingHorizontal: 8 },
+  columnWrapper: { justifyContent: 'space-between', paddingHorizontal: 8, marginBottom: 8 },
+  gridContent: { paddingBottom: 16 },
+
+  // Store Grid Card
+  storeGridCard: { flex: 1, backgroundColor: C.card, borderRadius: 12, padding: 12, marginHorizontal: 4, borderWidth: 1, borderColor: C.border, alignItems: 'center' },
+  storeGridImage: { width: 70, height: 70, borderRadius: 12, backgroundColor: 'rgba(200, 107, 44, 0.15)', justifyContent: 'center', alignItems: 'center', marginBottom: 10 },
+  storeGridInfo: { width: '100%', alignItems: 'center' },
+  storeGridName: { color: C.foreground, fontSize: 13, fontWeight: '700', textAlign: 'center', marginBottom: 6 },
+  storeGridStats: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  storeGridDistance: { color: C.mutedForeground, fontSize: 10 },
+  storeGridDot: { color: C.mutedForeground, fontSize: 10 },
+  storeGridDelivery: { color: C.mutedForeground, fontSize: 10 },
+
   empty: { justifyContent: 'center', alignItems: 'center', paddingVertical: 60 },
   emptyText: { color: C.mutedForeground, fontSize: 14, marginTop: 12 },
   emptySubtext: { color: C.mutedForeground, fontSize: 12, marginTop: 6 },
